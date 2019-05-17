@@ -17,6 +17,8 @@
 
 namespace PhpOffice\PhpWord\Writer\Word2007\Element;
 
+use PhpOffice\PhpWord\SimpleType\Jc;
+
 /**
  * @since 0.13.0
  */
@@ -35,7 +37,30 @@ class ParagraphAlignment
      */
     final public function __construct($value)
     {
-        $this->attributes['w:val'] = $value;
+        // keep from this issue : https://github.com/PHPOffice/PHPWord/issues/1450
+        switch ($value) {
+            case Jc::CENTER:
+                $textAlign = 'center';
+                break;
+            case Jc::END:
+            case Jc::MEDIUM_KASHIDA:
+            case Jc::HIGH_KASHIDA:
+            case Jc::LOW_KASHIDA:
+            case Jc::RIGHT:
+                $textAlign = 'right';
+                break;
+            case Jc::BOTH:
+            case Jc::DISTRIBUTE:
+            case Jc::THAI_DISTRIBUTE:
+            case Jc::JUSTIFY:
+                $textAlign = 'justify';
+                break;
+            default: //all others, align left
+                $textAlign = 'left';
+                break;
+        }
+
+        $this->attributes['w:val'] = $textAlign;
     }
 
     /**
