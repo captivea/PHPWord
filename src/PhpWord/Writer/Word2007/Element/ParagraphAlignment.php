@@ -53,7 +53,7 @@ class ParagraphAlignment
             case Jc::DISTRIBUTE:
             case Jc::THAI_DISTRIBUTE:
             case Jc::JUSTIFY:
-                $textAlign = 'justify';
+                $textAlign = 'both';
                 break;
             default: //all others, align left
                 $textAlign = 'left';
